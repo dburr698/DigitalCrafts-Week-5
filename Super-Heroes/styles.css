@@ -1,0 +1,28 @@
+
+#moviesUL {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+}
+
+#moviesDiv {
+    display: flex;
+    justify-content: center;
+}
+
+#info {
+    float: right;
+    width: inherit;
+}
+
+#details {
+    width: 50%;
+}
+
