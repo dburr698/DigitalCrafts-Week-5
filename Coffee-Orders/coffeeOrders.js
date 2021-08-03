@@ -9,7 +9,12 @@ const emailToDeleteText = document.getElementById("emailToDeleteText")
 const deleteOrderButton = document.getElementById("deleteOrderButton")
 
 const emailToSearchText = document.getElementById("emailToSearchText")
-const searchOrderButton = document.getElementById("deleteOrderButton")
+const searchOrderButton = document.getElementById("searchOrderButton")
+
+// display all orders when the page loads
+getAllOrders(function(orders) {
+    displayOrders(orders)
+})
 
 // addEventListener for submit order button
 submitOrderButton.addEventListener('click', function() {
@@ -71,6 +76,28 @@ function displayOrders(orders) {
     ordersUL.innerHTML = orderItems.join("")
 }
 
+// create function to search orders by email
+function searchOrder() {
+    console.log("searchOrder() executed")
+    const emailToSearch = emailToSearchText.value
+    const orderToSearchURL = `https://troubled-peaceful-hell.glitch.me/orders/${emailToSearch}`
+    let searchRequest = new XMLHttpRequest()
+    searchRequest.open('GET', orderToSearchURL)
+    searchRequest.send()
+    searchRequest.addEventListener('load', function() {
+        console.log(this.responseText)
+        const searchOrders = JSON.parse(this.responseText)
+        console.log(searchOrders)
+        displayOrders(searchOrders)
+    })
+}
+
+// addEventListener to search order button that will call the searchOrder function
+searchOrderButton.addEventListener('click', function() {
+    console.log("Search Button Clicked")
+    searchOrder()
+})
+
 // create function to delete order
 function deleteOrder() {
     const emailToDelete = emailToDeleteText.value
@@ -90,26 +117,3 @@ deleteOrderButton.addEventListener('click', function() {
     deleteOrder()
 })
 
-// create function to search orders by email
-function searchOrder() {
-    const emailToSearch = emailToSearchText.value
-    const orderToSearchURL = `https://troubled-peaceful-hell.glitch.me/orders/${emailToSearch}`
-    let searchRequest = new XMLHttpRequest()
-    searchRequest.open('GET', orderToSearchURL)
-    searchRequest.send()
-    searchRequest.addEventListener('load', function() {
-        getAllOrders(function(orders) {
-            displayOrders(orders)
-        })
-    })
-}
-
-// addEventListener to search order button that will call the searchOrder function
-searchOrderButton.addEventListener('click', function() {
-    searchOrder()
-})
-
-// display all orders when the page loads
-getAllOrders(function(orders) {
-    displayOrders(orders)
-})
